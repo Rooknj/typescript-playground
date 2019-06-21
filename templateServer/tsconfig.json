@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["es5", "es6", "esnext.asynciterable", "es7", "es2017"],
-    "target": "es2016",
+    "lib": ["es2017", "es7"],
+    "target": "es2017",
     "module": "commonjs",
     "moduleResolution": "node",
-    "outDir": "./build",
+    "outDir": "./dist",
     "noFallthroughCasesInSwitch": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,

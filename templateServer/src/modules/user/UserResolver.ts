@@ -10,10 +10,10 @@ import { client as plaid } from '../payments/plaid'
 @InputType()
 class ProfileInput implements Partial<Profile> {
   @Field(type => String)
-  firstName: string
+  public firstName: string
 
   @Field(type => String)
-  lastName: string
+  public lastName: string
 }
 
 @InputType()
@@ -58,7 +58,7 @@ export default class UserResolver {
 
   // this overrides accounts js `createUser` function
   @Mutation(returns => ID)
-  async createUser(@Arg('user', returns => CreateUserInput) user: CreateUserInput) {
+  public async createUser(@Arg('user', returns => CreateUserInput) user: CreateUserInput) {
     const createdUserId = await accountsPassword.createUser({
       ...user,
       roles: [Role.User],
@@ -69,7 +69,7 @@ export default class UserResolver {
 
   @Mutation(returns => Boolean)
   @Authorized()
-  async onboardUser(
+  public async onboardUser(
     @Arg('publicToken') publicToken: string,
     @Arg('property') property: PropertyInput,
     @Ctx() ctx: Context
@@ -94,7 +94,7 @@ export default class UserResolver {
 
   @Mutation(returns => Boolean)
   @Authorized()
-  async setPlaidToken(@Arg('publicToken') publicToken: string, @Ctx() ctx: Context) {
+  public async setPlaidToken(@Arg('publicToken') publicToken: string, @Ctx() ctx: Context) {
     return new Promise((resolve, reject) => {
       plaid.exchangePublicToken(publicToken, async (err, response) => {
         if (err != null) reject(err)
