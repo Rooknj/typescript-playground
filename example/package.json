@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "nodemon -e ts -w ./src -x ts-node src/index.ts",
+    "start": "ts-node scripts/start",
     "build": "tsc",
     "test": "jest",
     "lint": "eslint 'src/**/*.{ts,js,json,md}' --config=.eslintrc.js",
@@ -20,6 +20,7 @@
     "@types/node": "^12.0.8",
     "@typescript-eslint/eslint-plugin": "^1.10.2",
     "@typescript-eslint/parser": "^1.10.2",
+    "cross-spawn": "^6.0.5",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^4.3.0",
