@@ -1,7 +1,12 @@
 /* eslint no-console:0 */
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 import * as spawn from "cross-spawn";
+import * as path from "path";
 import { exec } from "pkg";
+import { name, version } from "../package.json";
+
+const EXECUTABLE_NAME = name;
+const BUILD_FOLDER = "build";
 
 // Do this as the first thing so that any code reading it knows the right env.
 process.env.BABEL_ENV = "production";
@@ -38,10 +43,22 @@ if (process.env.PKG_TARGET) {
   }
 }
 
+console.log(`🛠  Building ${name} v${version} 🛠`);
+
 console.log("Compiling Typescript...");
-spawn.sync("tsc", {
+const { status } = spawn.sync("tsc", {
   stdio: ["inherit", "inherit", "inherit"],
 });
+// If the typescript compilation failed, return with an error exit code
+if (status !== 0) {
+  console.log("Error Compiling Typescript ❌");
+  process.exit(status);
+} else {
+  console.log("Compilation Successful ✅");
+}
 
 console.log("Building Executable...");
-exec([".", "--target", target, "--output", `./build/prysma`]);
+const outputFile = `./${BUILD_FOLDER}/${EXECUTABLE_NAME}`;
+exec([".", "--target", target, "--output", outputFile]);
+console.log("Build Success ✅");
+console.log(`Executable located at ${path.join(BUILD_FOLDER, EXECUTABLE_NAME)}`);
