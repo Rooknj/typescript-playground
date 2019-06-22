@@ -1,79 +1,79 @@
-import { prop, Typegoose } from 'typegoose'
-import { ObjectType, Field, ID } from 'type-graphql'
-import { ObjectId } from 'mongodb'
-import { Role } from './consts'
+import { prop, Typegoose } from "typegoose";
+import { ObjectType, Field, ID } from "type-graphql";
+import { ObjectId } from "mongodb";
+import { Role } from "./consts";
 
 @ObjectType()
 export class Profile {
   @prop({ required: true })
   @Field()
-  firstName: string
+  firstName: string;
 
   @prop({ required: true })
   @Field()
-  lastName: string
+  lastName: string;
 }
 
 @ObjectType()
 export class Plaid {
   @prop({ required: true })
   @Field()
-  accessToken: string
+  accessToken: string;
 
   @prop({ required: true })
   @Field()
-  itemId: string
+  itemId: string;
 }
 
 @ObjectType()
 export class Property {
   @prop({ required: true })
   @Field()
-  address: string
+  address: string;
 
   @prop({ required: true })
   @Field()
-  placeId: string
+  placeId: string;
 
   @prop({ required: true })
   @Field()
-  rentAmount: number
+  rentAmount: number;
 }
 
 @ObjectType()
 export class User extends Typegoose {
   @Field(type => ID)
-  readonly _id: ObjectId
+  readonly _id: ObjectId;
 
   @prop()
   @Field(type => Profile)
-  profile: Profile
+  profile: Profile;
 
   @prop()
   @Field(type => Plaid, { nullable: true })
-  plaid?: Plaid
+  plaid?: Plaid;
 
   @prop()
   @Field(type => Property, { nullable: true })
-  properties?: Property[]
+  properties?: Property[];
 
   @prop({ required: true, enum: Role })
   @Field(type => Role)
-  roles: Role[]
+  roles: Role[];
 
   @prop()
   @Field({ nullable: true })
-  isOnboarded?: boolean
+  isOnboarded?: boolean;
 
   @prop()
   @Field(() => Date)
-  createdAt: Date
+  createdAt: Date;
 
   @prop()
   @Field(() => Date)
-  updatedAt: Date
+  updatedAt: Date;
 }
 
 export default new User().getModelForClass(User, {
-  schemaOptions: { timestamps: true },
-})
+  schemaOptions: { timestamps: true }
+});

@@ -1,6 +1,6 @@
-import { User } from '../user/UserEntity'
+import { User } from "../user/UserEntity";
 
 export interface Context {
-  userId?: string
-  user?: User
+  userId?: string;
+  user?: User;
 }
