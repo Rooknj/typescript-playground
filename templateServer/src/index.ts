@@ -25,7 +25,8 @@ import { TypegooseMiddleware } from "./middleware/typegoose";
     emitSchemaFile: true,
     authChecker
   });
-//test
+  //test
+  //test2
   const schema = makeExecutableSchema({
     typeDefs: mergeTypeDefs([accountsGraphQL.typeDefs]),
     resolvers: mergeResolvers([accountsGraphQL.resolvers]),
