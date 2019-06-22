@@ -8,6 +8,7 @@
   "scripts": {
     "start": "nodemon -e ts -w ./src -x ts-node src/index.ts",
     "build": "tsc",
+    "test": "jest",
     "lint": "eslint 'src/**/*.{ts,js,json,md}' --config=.eslintrc.js",
     "reformat": "prettier 'src/**/*.{ts,js,json,md}' --write"
   },
@@ -15,6 +16,7 @@
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-typescript": "^7.3.3",
+    "@types/jest": "^24.0.15",
     "@types/node": "^12.0.8",
     "@typescript-eslint/eslint-plugin": "^1.10.2",
     "@typescript-eslint/parser": "^1.10.2",
@@ -26,6 +28,7 @@
     "eslint-plugin-jest": "^22.6.4",
     "eslint-plugin-prettier": "^3.1.0",
     "husky": "^2.4.1",
+    "jest": "^24.8.0",
     "lint-staged": "^8.2.1",
     "nodemon": "^1.19.1",
     "prettier": "^1.18.2",
