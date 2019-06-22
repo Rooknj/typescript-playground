@@ -8,7 +8,7 @@
   "scripts": {
     "start": "ts-node scripts/start",
     "build": "ts-node scripts/build",
-    "test": "jest",
+    "test": "ts-node scripts/test",
     "lint": "eslint 'src/**/*.{ts,js,json,md}' --config=.eslintrc.js",
     "reformat": "prettier 'src/**/*.{ts,js,json,md}' --write"
   },
