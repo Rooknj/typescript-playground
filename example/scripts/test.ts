@@ -20,7 +20,7 @@ const argv = process.argv.slice(2);
 
 if (argv.indexOf("--no-watch") >= 0) {
   process.env.CI = "true";
-  argv.splice(argv.indexOf("--no-watch"), 1); // Remove no-watch option from argv so jest doesnt screw up
+  argv.splice(argv.indexOf("--no-watch"), 1); // Remove no-watch option from argv so jest doesn't screw up
 }
 
 // Watch unless on CI or in coverage mode
