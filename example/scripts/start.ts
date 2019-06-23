@@ -39,7 +39,7 @@ process.on(
 // }
 
 // Start Nodemon with cross-spawn
-spawn.sync("nodemon", ["-e", "ts", "-w", "./src", "-x", "ts-node", "src/index.ts"], {
+spawn.sync("nodemon", ["--ext", "ts", "--watch", "./src", "--exec", "ts-node", "src/index.ts"], {
   stdio: ["inherit", "inherit", "inherit"],
   cwd: process.cwd(),
   env: Object.assign({}, process.env, {
