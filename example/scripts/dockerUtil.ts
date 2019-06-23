@@ -2,6 +2,7 @@
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
 import * as parseArgs from "minimist";
 import * as spawn from "cross-spawn";
+// @ts-ignore
 import { name, version } from "../package.json";
 
 const IMAGE_NAME = `rooknj/${name}`;

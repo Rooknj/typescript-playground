@@ -3,6 +3,7 @@
 import * as spawn from "cross-spawn";
 import * as path from "path";
 import { exec } from "pkg";
+// @ts-ignore
 import { name, version } from "../package.json";
 
 const EXECUTABLE_NAME = name;
