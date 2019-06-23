@@ -1,3 +1,3 @@
 declare module "pkg" {
-  export function exec(args: string[]): void;
+  export const exec: (args: string[]) => void;
 }
