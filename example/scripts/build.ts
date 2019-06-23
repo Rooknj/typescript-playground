@@ -1,7 +1,10 @@
+/* eslint-disable-next-line spaced-comment */
+/// <reference types="./@types/pkg" />
+
 /* eslint no-console:0 */
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
-import * as spawn from "cross-spawn";
-import * as path from "path";
+import spawn from "cross-spawn";
+import path from "path";
 import { exec } from "pkg";
 // @ts-ignore
 import { name, version } from "../package.json";

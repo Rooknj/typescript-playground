@@ -1,7 +1,7 @@
 /* eslint no-console:0 */
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
-import * as parseArgs from "minimist";
-import * as spawn from "cross-spawn";
+import parseArgs from "minimist";
+import spawn from "cross-spawn";
 // @ts-ignore
 import { name, version } from "../package.json";
 

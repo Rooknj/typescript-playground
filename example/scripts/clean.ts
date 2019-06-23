@@ -1,6 +1,6 @@
 /* eslint no-console:0 */
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
-import * as rimraf from "rimraf";
+import rimraf from "rimraf";
 // import { execSync } from "child_process";
 
 const remove = (fileOrDirectory: string): void => {

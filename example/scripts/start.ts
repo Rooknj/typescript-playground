@@ -1,6 +1,6 @@
 /* eslint no-console:0 */
 /* eslint import/no-extraneous-dependencies: ["error", {"devDependencies": true}] */
-import * as spawn from "cross-spawn";
+import spawn from "cross-spawn";
 // import * as spawnArgs from "spawn-args";
 import { delimiter, resolve as pathResolve } from "path";
 // import { execSync } from "child_process";
