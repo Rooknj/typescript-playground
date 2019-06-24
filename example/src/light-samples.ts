@@ -1,0 +1,63 @@
+import { plainToClass } from "class-transformer";
+import { Light } from "./light-type";
+
+export const createLightSamples = (): Light[] => {
+  return plainToClass(Light, [
+    {
+      id: "Prysma-84F3EBB45500",
+      name: "Prysma-84F3EBB45500",
+      supportedEffects: [
+        "Flash",
+        "Fade",
+        "Rainbow",
+        "Cylon",
+        "Sinelon",
+        "Confetti",
+        "BPM",
+        "Juggle",
+        "Visualize",
+        "Dots",
+        "Fire",
+        "Lightning",
+        "Noise",
+      ],
+      ipAddress: "10.0.0.114",
+      macAddress: "84:F3:EB:B4:55:00",
+      numLeds: 60,
+      udpPort: 7778,
+      version: "1.0.0",
+      hardware: "8266",
+      colorOrder: "GRB",
+      stripType: "WS2812B",
+      pos: null,
+    },
+    {
+      id: "Prysma-Mock",
+      name: "Prysma-Mock",
+      supportedEffects: ["Test 1", "Test 2", "Test 3"],
+      ipAddress: "10.0.0.1",
+      macAddress: "AA:BB:CC:DD:EE:FF",
+      numLeds: 60,
+      udpPort: 7778,
+      version: "1.0.0-mock",
+      hardware: "MockHardware",
+      colorOrder: "RGB",
+      stripType: "MockStrip",
+      pos: null,
+    },
+    {
+      id: "Default Mock",
+      name: "Default Mock",
+      supportedEffects: ["Test 1", "Test 2", "Test 3"],
+      ipAddress: null,
+      macAddress: null,
+      numLeds: null,
+      udpPort: null,
+      version: null,
+      hardware: null,
+      colorOrder: null,
+      stripType: null,
+      pos: null,
+    },
+  ]);
+};
