@@ -1,11 +1,8 @@
 import { plainToClass } from "class-transformer";
-import { ClassType } from "type-graphql";
-import { Service } from "typedi";
 import { Light } from "./light-type";
 import { LightInput } from "./light-input";
 import { createLightSamples } from "./light-samples";
 
-@Service()
 export class LightService {
   private readonly items: Light[] = createLightSamples();
 
@@ -24,7 +21,7 @@ export class LightService {
     return this.items;
   };
 
-  public update = async (id: string, lightData: ClassType<LightInput>): Promise<Light> => {
+  public update = async (id: string, lightData: LightInput): Promise<Light> => {
     const lightToUpdate = this.items.find((item): boolean => item.id === id);
 
     if (!lightToUpdate) {
@@ -44,7 +41,7 @@ export class LightService {
     return updatedLight;
   };
 
-  public addNew = async (id: string, lightData: ClassType<LightInput>): Promise<Light> => {
+  public addNew = async (id: string, lightData?: LightInput): Promise<Light> => {
     const light = plainToClass(Light, {
       id,
       ...lightData,

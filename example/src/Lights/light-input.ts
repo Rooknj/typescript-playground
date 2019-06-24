@@ -20,7 +20,7 @@ export class AddLightArgs {
   public id!: string;
 
   @Field((): ClassType<LightInput> => LightInput, { nullable: true })
-  public lightData!: ClassType<LightInput>;
+  public lightData!: LightInput;
 }
 
 @ArgsType()
@@ -30,5 +30,5 @@ export class SetLightArgs {
   public id!: string;
 
   @Field((): ClassType<LightInput> => LightInput)
-  public lightData!: ClassType<LightInput>;
+  public lightData!: LightInput;
 }
