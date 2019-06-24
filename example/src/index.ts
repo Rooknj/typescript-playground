@@ -7,13 +7,15 @@ import { LightResolver } from "./light-resolver";
 
 // Wrap index.js inside an immediately invoked async function
 (async (): Promise<void> => {
+  console.log(process.env.NODE_ENV);
   console.log("Hello World");
 
   // build TypeGraphQL executable schema
   const schema = await buildSchema({
     resolvers: [LightResolver],
-    // automatically create `schema.gql` file with schema definition in current folder
-    emitSchemaFile: path.resolve(__dirname, "schema.gql"),
+    // Automatically create `schema.gql` file with schema definition in current folder if not running from a pkg executable
+    // Don't create the schema file if running from a pkg executable
+    emitSchemaFile: process.env.NODE_ENV ? path.resolve(__dirname, "schema.gql") : false,
   });
 
   // Create GraphQL server
