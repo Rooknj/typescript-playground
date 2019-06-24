@@ -22,3 +22,13 @@ export class AddLightArgs {
   @Field((): ClassType<LightInput> => LightInput, { nullable: true })
   public lightData!: ClassType<LightInput>;
 }
+
+@ArgsType()
+export class SetLightArgs {
+  @Field((): StringConstructor => String)
+  @Length(1, 255)
+  public id!: string;
+
+  @Field((): ClassType<LightInput> => LightInput)
+  public lightData!: ClassType<LightInput>;
+}

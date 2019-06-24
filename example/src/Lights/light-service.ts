@@ -1,11 +1,12 @@
 import { plainToClass } from "class-transformer";
 import { ClassType } from "type-graphql";
+import { Service } from "typedi";
 import { Light } from "./light-type";
-
 import { LightInput } from "./light-input";
 import { createLightSamples } from "./light-samples";
 
-class LightService {
+@Service()
+export class LightService {
   private readonly items: Light[] = createLightSamples();
 
   public findById = async (id: string): Promise<Light> => {
@@ -21,6 +22,26 @@ class LightService {
 
   public findAll = async (): Promise<Light[]> => {
     return this.items;
+  };
+
+  public update = async (id: string, lightData: ClassType<LightInput>): Promise<Light> => {
+    const lightToUpdate = this.items.find((item): boolean => item.id === id);
+
+    if (!lightToUpdate) {
+      throw new Error("Light doesn't exist");
+    }
+
+    const updatedLight = plainToClass(Light, {
+      id,
+      ...lightToUpdate,
+      ...lightData,
+    });
+
+    const index = this.items.indexOf(lightToUpdate);
+
+    this.items[index] = updatedLight;
+
+    return updatedLight;
   };
 
   public addNew = async (id: string, lightData: ClassType<LightInput>): Promise<Light> => {
@@ -43,5 +64,3 @@ class LightService {
     return removed;
   };
 }
-
-export default LightService;

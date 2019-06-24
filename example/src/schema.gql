@@ -31,6 +31,7 @@ input LightInput {
 }
 
 type Mutation {
+  setLight(id: String!, lightData: LightInput!): Light!
   addLight(id: String!, lightData: LightInput): Light!
   removeLight(id: String!): Boolean!
 }

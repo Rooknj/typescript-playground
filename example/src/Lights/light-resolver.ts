@@ -1,17 +1,15 @@
 import { Resolver, Query, Mutation, Arg, Args, ClassType } from "type-graphql";
 import { Light } from "./light-type";
-import { AddLightArgs } from "./light-input";
-import LightService from "./LightService";
+import { AddLightArgs, SetLightArgs } from "./light-input";
+import { LightService } from "./light-service";
 
 @Resolver((): ClassType<Light> => Light)
 export class LightResolver {
   private lightService: LightService;
 
-  // public constructor(lightService: LightService) {
-  //   this.lightService = lightService;
-  // }
-  public constructor() {
-    this.lightService = new LightService();
+  // constructor injection of service
+  public constructor(lightService: LightService) {
+    this.lightService = lightService;
   }
 
   @Query((): ClassType<Light> => Light)
@@ -22,6 +20,11 @@ export class LightResolver {
   @Query((): ClassType<Light>[] => [Light])
   public lights(): Promise<Light[]> {
     return this.lightService.findAll();
+  }
+
+  @Mutation((): ClassType<Light> => Light)
+  public setLight(@Args() { id, lightData }: SetLightArgs): Promise<Light> {
+    return this.lightService.update(id, lightData);
   }
 
   @Mutation((): ClassType<Light> => Light)
