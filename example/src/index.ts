@@ -3,13 +3,10 @@ import "reflect-metadata";
 import path from "path";
 import { ApolloServer } from "apollo-server";
 import { buildSchema } from "type-graphql";
-import { LightResolver } from "./light-resolver";
+import { LightResolver } from "./Lights/light-resolver";
 
 // Wrap index.js inside an immediately invoked async function
 (async (): Promise<void> => {
-  console.log(process.env.NODE_ENV);
-  console.log("Hello World");
-
   // build TypeGraphQL executable schema
   const schema = await buildSchema({
     resolvers: [LightResolver],
