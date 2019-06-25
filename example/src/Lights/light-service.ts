@@ -4,7 +4,7 @@ import { LightInput } from "./light-input";
 import { createLightSamples } from "./light-samples";
 
 export class LightService {
-  private readonly items: Light[] = createLightSamples();
+  private readonly items = createLightSamples();
 
   public findById = async (id: string): Promise<Light> => {
     const light = await this.items.find((item): boolean => item.id === id);

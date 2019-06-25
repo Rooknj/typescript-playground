@@ -29,7 +29,7 @@ export const createLightSamples = (): Light[] => {
       hardware: "8266",
       colorOrder: "GRB",
       stripType: "WS2812B",
-      pos: null,
+      pos: 16384,
     },
     {
       id: "Prysma-Mock",
@@ -43,7 +43,7 @@ export const createLightSamples = (): Light[] => {
       hardware: "MockHardware",
       colorOrder: "RGB",
       stripType: "MockStrip",
-      pos: null,
+      pos: 32768,
     },
     {
       id: "Default Mock",
@@ -57,7 +57,7 @@ export const createLightSamples = (): Light[] => {
       hardware: null,
       colorOrder: null,
       stripType: null,
-      pos: null,
+      pos: 49152,
     },
   ]);
 };

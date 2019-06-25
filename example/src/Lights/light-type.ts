@@ -7,35 +7,35 @@ export class Light {
   public id!: string;
 
   @Field({ nullable: true, description: "The display name of the Light" })
-  public name!: string;
+  public name?: string;
 
   @Field({ nullable: true })
-  public pos!: number;
+  public pos?: number;
 
   @Field((): StringConstructor[] => [String], { nullable: true })
-  public supportedEffects!: [string];
+  public supportedEffects?: [string];
 
   @Field({ nullable: true })
-  public ipAddress!: string;
+  public ipAddress?: string;
 
   @Field({ nullable: true })
-  public macAddress!: string;
+  public macAddress?: string;
 
   @Field((): GraphQLScalarType => Int, { nullable: true })
-  public numLeds!: number;
+  public numLeds?: number;
 
   @Field((): GraphQLScalarType => Int, { nullable: true })
-  public udpPort!: number;
+  public udpPort?: number;
 
   @Field({ nullable: true })
-  public version!: string;
+  public version?: string;
 
   @Field({ nullable: true })
-  public hardware!: string;
+  public hardware?: string;
 
   @Field({ nullable: true })
-  public colorOrder!: string;
+  public colorOrder?: string;
 
   @Field({ nullable: true })
-  public stripType!: string;
+  public stripType?: string;
 }

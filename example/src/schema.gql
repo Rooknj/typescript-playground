@@ -3,15 +3,11 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-"""
-Object representing a Light
-"""
+"""Object representing a Light"""
 type Light {
   id: ID!
 
-  """
-  The display name of the Light
-  """
+  """The display name of the Light"""
   name: String
   pos: Float
   supportedEffects: [String!]
