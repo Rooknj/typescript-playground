@@ -1,13 +1,15 @@
 import { Resolver, Query, Mutation, Arg, Args, ClassType } from "type-graphql";
+import { Service } from "typedi";
 import { Light } from "./light-type";
 import { AddLightArgs, SetLightArgs } from "./light-input";
 import { LightService } from "./light-service";
 
+@Service()
 @Resolver((): ClassType<Light> => Light)
 export class LightResolver {
   private lightService: LightService;
 
-  // constructor injection of service
+  // Dependency injection of the service
   public constructor(lightService: LightService) {
     this.lightService = lightService;
   }
@@ -32,8 +34,8 @@ export class LightResolver {
     return this.lightService.addNew(id, lightData);
   }
 
-  @Mutation((): BooleanConstructor => Boolean)
-  public removeLight(@Arg("id") id: string): Promise<boolean> {
+  @Mutation((): ClassType<Light> => Light)
+  public removeLight(@Arg("id") id: string): Promise<Light> {
     return this.lightService.removeById(id);
   }
 }

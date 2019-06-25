@@ -26,7 +26,7 @@ remove("build");
 remove("coverage");
 
 // Remove database
-// remove("data/*.sqlite");
+remove("data/*.sqlite");
 
 // Bring down docker containers
 // console.log("Bringing docker containers down");

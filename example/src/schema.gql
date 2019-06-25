@@ -8,8 +8,8 @@ type Light {
   id: ID!
 
   """The display name of the Light"""
-  name: String
-  pos: Float
+  name: String!
+  pos: Float!
   supportedEffects: [String!]
   ipAddress: String
   macAddress: String
@@ -29,7 +29,7 @@ input LightInput {
 type Mutation {
   setLight(id: String!, lightData: LightInput!): Light!
   addLight(id: String!, lightData: LightInput): Light!
-  removeLight(id: String!): Boolean!
+  removeLight(id: String!): Light!
 }
 
 type Query {
