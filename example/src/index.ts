@@ -11,9 +11,13 @@ import { Light, LightState } from "./Lights/light-type";
 
 // Wrap index.js inside an immediately invoked async function
 (async (): Promise<void> => {
+  const DB_NAME = "test.sqlite";
   const connection = await createConnection({
     type: "sqlite",
-    database: path.join(__dirname, "..", "data", "test.sqlite"),
+    // Create the SQLite database in the executable's directory if running from a pkg executable
+    database: process.env.NODE_ENV
+      ? path.join(__dirname, "..", "data", DB_NAME)
+      : path.join("data", DB_NAME),
     entities: [Light, LightState],
     synchronize: true,
     logging: false,
