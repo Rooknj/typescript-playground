@@ -1,7 +1,7 @@
-import { Resolver, Query, Mutation, Arg, Args, ClassType } from "type-graphql";
+import { Resolver, Query, Mutation, Arg, ClassType } from "type-graphql";
 import { Service } from "typedi";
 import { Light, LightState } from "./light-type";
-import { AddLightArgs, SetLightArgs, SetLightStateArgs } from "./light-input";
+import { LightStateInput, LightInput } from "./light-input";
 import { LightService } from "./light-service";
 
 @Service()
@@ -32,17 +32,20 @@ export class LightResolver {
   @Mutation((): ClassType<Light> => Light, {
     description: "Change some of the light's data (use setLightState to change the state)",
   })
-  public setLight(@Args() { id, lightData }: SetLightArgs): Promise<Light> {
+  public setLight(@Arg("id") id: string, @Arg("lightData") lightData: LightInput): Promise<Light> {
     return this.lightService.updateLight(id, lightData);
   }
 
   @Mutation((): ClassType<LightState> => LightState, { description: "Change the light's state" })
-  public setLightState(@Args() { id, lightStateData }: SetLightStateArgs): Promise<LightState> {
+  public setLightState(
+    @Arg("id") id: string,
+    @Arg("lightStateData") lightStateData: LightStateInput
+  ): Promise<LightState> {
     return this.lightService.updateLightState(id, lightStateData);
   }
 
   @Mutation((): ClassType<Light> => Light, { description: "Add a new light" })
-  public addLight(@Args() { id, lightData }: AddLightArgs): Promise<Light> {
+  public addLight(@Arg("id") id: string, @Arg("lightData") lightData: LightInput): Promise<Light> {
     return this.lightService.addNewLight(id, lightData);
   }
 

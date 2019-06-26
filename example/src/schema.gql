@@ -98,13 +98,13 @@ type Mutation {
   """
   Change some of the light's data (use setLightState to change the state)
   """
-  setLight(id: String!, lightData: LightInput!): Light!
+  setLight(lightData: LightInput!, id: String!): Light!
 
   """Change the light's state"""
-  setLightState(id: String!, lightStateData: LightStateInput!): LightState!
+  setLightState(lightStateData: LightStateInput!, id: String!): LightState!
 
   """Add a new light"""
-  addLight(id: String!, lightData: LightInput): Light!
+  addLight(lightData: LightInput!, id: String!): Light!
 
   """Remove a currently added light"""
   removeLight(id: String!): Light!
