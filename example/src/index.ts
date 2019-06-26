@@ -5,6 +5,7 @@ import { ApolloServer } from "apollo-server";
 import { Container } from "typedi";
 import { buildSchema } from "type-graphql";
 import { createConnection, Connection } from "typeorm";
+import { PubSub } from "graphql-subscriptions";
 import { LightResolver } from "./Lights/light-resolver";
 import { Light, LightState } from "./Lights/light-type";
 
@@ -21,6 +22,10 @@ import { Light, LightState } from "./Lights/light-type";
   // Set the connection in the container so it can be injected into services
   Container.set(Connection, connection);
 
+  // Set up a pub sub system for Graphql Subscriptions
+  const pubSub = new PubSub();
+  Container.set(PubSub, pubSub);
+
   // build TypeGraphQL executable schema
   const schema = await buildSchema({
     resolvers: [LightResolver],
@@ -29,6 +34,8 @@ import { Light, LightState } from "./Lights/light-type";
     emitSchemaFile: process.env.NODE_ENV ? path.resolve(__dirname, "schema.gql") : false,
     // register 3rd party IOC container
     container: Container,
+    // Use our custom PubSub system
+    pubSub,
   });
 
   // Create GraphQL server

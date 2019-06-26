@@ -120,3 +120,10 @@ type Query {
   """Get all currently added lights"""
   lights: [Light!]!
 }
+
+type Subscription {
+  lightChanged: Light!
+  lightStateChanged: LightState!
+  lightAdded: Light!
+  lightRemoved: Light!
+}

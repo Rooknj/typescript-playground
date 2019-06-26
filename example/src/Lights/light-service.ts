@@ -35,12 +35,13 @@ export class LightService {
 
   public updateLight = async (id: string, lightData: LightInput): Promise<Light> => {
     console.log(`Updating Light: ${id}`);
-    const lightToUpdate = await this.lightRepo.findOneOrFail(id);
+    const lightToUpdate = await this.lightRepo.findOneOrFail(id, { relations: ["state"] });
 
     // Assign the new properties to the light
     Object.assign(lightToUpdate, lightData);
 
     await this.lightRepo.save(lightToUpdate);
+
     return lightToUpdate;
   };
 
@@ -100,7 +101,7 @@ export class LightService {
   public removeLightById = async (id: string): Promise<Light> => {
     console.log(`Removing Light: ${id}`);
     const [lightToRemove, lightStateToRemove] = await Promise.all([
-      this.lightRepo.findOneOrFail(id),
+      this.lightRepo.findOneOrFail(id, { relations: ["state"] }),
       this.stateRepo.findOneOrFail(id),
     ]);
 
