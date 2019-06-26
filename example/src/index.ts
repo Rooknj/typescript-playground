@@ -6,34 +6,20 @@ import { Container } from "typedi";
 import { buildSchema } from "type-graphql";
 import { createConnection, Connection } from "typeorm";
 import { LightResolver } from "./Lights/light-resolver";
-import { Light } from "./Lights/light-type";
+import { Light, LightState } from "./Lights/light-type";
 
 // Wrap index.js inside an immediately invoked async function
 (async (): Promise<void> => {
   const connection = await createConnection({
     type: "sqlite",
     database: path.join(__dirname, "..", "data", "test.sqlite"),
-    entities: [Light],
+    entities: [Light, LightState],
     synchronize: true,
     logging: false,
   });
 
   // Set the connection in the container so it can be injected into services
   Container.set(Connection, connection);
-
-  // const light = new Light();
-  // light.id = "Prysma-Test";
-  // light.name = "test";
-  // light.pos = 16384;
-  // light.supportedEffects = ["test 1", "test 2", "test 4"];
-
-  // const lightRepository = connection.getRepository(Light);
-
-  // await lightRepository.save(light);
-  // console.log("light has been saved");
-
-  // const savedLights = await lightRepository.find();
-  // console.log("All lights from the db: ", savedLights);
 
   // build TypeGraphQL executable schema
   const schema = await buildSchema({

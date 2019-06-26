@@ -9,30 +9,114 @@ type Light {
 
   """The display name of the Light"""
   name: String!
+
+  """
+  The ordering of the light. Lower means closer to the top and higher means closer to the bottom
+  """
   pos: Float!
+
+  """The list of effects the light can play"""
   supportedEffects: [String!]
+
+  """The IP Address of the light's controller"""
   ipAddress: String
+
+  """The MAC Address of the light's controller"""
   macAddress: String
+
+  """The number of LEDs the light has"""
   numLeds: Int
+
+  """The UDP port the light is listening on for music visualization data"""
   udpPort: Int
+
+  """The firmware version the light's controller is running"""
   version: String
+
+  """The hardware of the light's controller"""
   hardware: String
+
+  """The order of colors the light strip runs on ex: RGB, GRB, BGR"""
   colorOrder: String
+
+  """The type of LED strip the light is ex: WS2812B, APA102"""
   stripType: String
+  state: LightState
 }
 
 input LightInput {
+  """Set the display name of the light"""
   name: String
+
+  """
+  Set the position of the light (can not be the same as another light's position)
+  """
   pos: Float
 }
 
+"""Object representing a Light's State"""
+type LightState {
+  id: ID!
+
+  """Whether the light is connected to the MQTT broker or not"""
+  connected: Boolean!
+
+  """Whether the light is switched on or not"""
+  on: Boolean!
+
+  """The brightness of the light as a percentage from 0-100"""
+  brightness: Int!
+
+  """The current color of the light in hexadecimal notation"""
+  color: String!
+
+  """The currently playing effect of the light"""
+  effect: String!
+
+  """The speed of the currently playing effect from 1-7"""
+  speed: Int!
+}
+
+input LightStateInput {
+  """Power the light on or off"""
+  on: Boolean
+
+  """Change the brightness of the light (a value 0-100)"""
+  brightness: Int
+
+  """Change the color of the light (must be in hexadecimal format)"""
+  color: String
+
+  """Change the currently playing effect of the light"""
+  effect: String
+
+  """Change the speed of the light (a value 1-7)"""
+  speed: Int
+}
+
 type Mutation {
+  """
+  Change some of the light's data (use setLightState to change the state)
+  """
   setLight(id: String!, lightData: LightInput!): Light!
+
+  """Change the light's state"""
+  setLightState(id: String!, lightStateData: LightStateInput!): LightState!
+
+  """Add a new light"""
   addLight(id: String!, lightData: LightInput): Light!
+
+  """Remove a currently added light"""
   removeLight(id: String!): Light!
 }
 
 type Query {
+  """Get a light by it's ID"""
   light(id: String!): Light!
+
+  """Get a light's state by it's id"""
+  lightState(id: String!): Light!
+
+  """Get all currently added lights"""
   lights: [Light!]!
 }

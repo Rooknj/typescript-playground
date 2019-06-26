@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Arg, Args, ClassType } from "type-graphql";
 import { Service } from "typedi";
-import { Light } from "./light-type";
-import { AddLightArgs, SetLightArgs } from "./light-input";
+import { Light, LightState } from "./light-type";
+import { AddLightArgs, SetLightArgs, SetLightStateArgs } from "./light-input";
 import { LightService } from "./light-service";
 
 @Service()
@@ -14,28 +14,40 @@ export class LightResolver {
     this.lightService = lightService;
   }
 
-  @Query((): ClassType<Light> => Light)
+  @Query((): ClassType<Light> => Light, { description: "Get a light by it's ID" })
   public light(@Arg("id") id: string): Promise<Light> {
-    return this.lightService.findById(id);
+    return this.lightService.findLightById(id);
   }
 
-  @Query((): ClassType<Light>[] => [Light])
+  @Query((): ClassType<Light> => Light, { description: "Get a light's state by it's id" })
+  public lightState(@Arg("id") id: string): Promise<LightState> {
+    return this.lightService.findLightStateById(id);
+  }
+
+  @Query((): ClassType<Light>[] => [Light], { description: "Get all currently added lights" })
   public lights(): Promise<Light[]> {
-    return this.lightService.findAll();
+    return this.lightService.findAllLights();
   }
 
-  @Mutation((): ClassType<Light> => Light)
+  @Mutation((): ClassType<Light> => Light, {
+    description: "Change some of the light's data (use setLightState to change the state)",
+  })
   public setLight(@Args() { id, lightData }: SetLightArgs): Promise<Light> {
-    return this.lightService.update(id, lightData);
+    return this.lightService.updateLight(id, lightData);
   }
 
-  @Mutation((): ClassType<Light> => Light)
+  @Mutation((): ClassType<LightState> => LightState, { description: "Change the light's state" })
+  public setLightState(@Args() { id, lightStateData }: SetLightStateArgs): Promise<LightState> {
+    return this.lightService.updateLightState(id, lightStateData);
+  }
+
+  @Mutation((): ClassType<Light> => Light, { description: "Add a new light" })
   public addLight(@Args() { id, lightData }: AddLightArgs): Promise<Light> {
-    return this.lightService.addNew(id, lightData);
+    return this.lightService.addNewLight(id, lightData);
   }
 
-  @Mutation((): ClassType<Light> => Light)
+  @Mutation((): ClassType<Light> => Light, { description: "Remove a currently added light" })
   public removeLight(@Arg("id") id: string): Promise<Light> {
-    return this.lightService.removeById(id);
+    return this.lightService.removeLightById(id);
   }
 }
