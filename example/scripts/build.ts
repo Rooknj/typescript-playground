@@ -63,6 +63,8 @@ if (status !== 0) {
 
 console.log("Building Executable...");
 const outputFile = `./${BUILD_FOLDER}/${EXECUTABLE_NAME}`;
-exec([".", "--target", target, "--output", outputFile]);
-console.log("Build Success ✅");
-console.log(`Executable located at ${path.join(BUILD_FOLDER, EXECUTABLE_NAME)}`);
+exec([".", "--target", target, "--output", outputFile]).then((): void => {
+  console.log("Build Success ✅");
+  console.log(`Executable located at ${path.join(BUILD_FOLDER, EXECUTABLE_NAME)}`);
+});
+
