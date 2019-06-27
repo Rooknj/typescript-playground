@@ -3,6 +3,7 @@ import { Service } from "typedi";
 import { Connection, Repository } from "typeorm";
 import { Light, LightState } from "./light-type";
 import { LightInput, LightStateInput } from "./light-input";
+import { LightMessenger } from "./light-messenger";
 
 @Service()
 export class LightService {
@@ -10,11 +11,30 @@ export class LightService {
 
   private readonly stateRepo: Repository<LightState>;
 
-  // Dependency injection of the connection
-  public constructor(connection: Connection) {
+  private readonly messenger: LightMessenger;
+
+  // The constructor parameters are Dependency Injected
+  public constructor(connection: Connection, messenger: LightMessenger) {
     this.lightRepo = connection.getRepository(Light);
     this.stateRepo = connection.getRepository(LightState);
+    this.messenger = messenger;
+    if (this.messenger.connected) {
+      this.handleMessengerConnect();
+    }
+    this.messenger.on("connect", this.handleMessengerConnect);
+    this.messenger.on("disconnect", this.handleMessengerDisconnect);
   }
+
+  private handleMessengerConnect = async (): Promise<void> => {
+    console.log("Messenger Connected");
+    // TODO: Subscribe to all lights
+    // TODO: Subscribe to discovery topics
+  };
+
+  private handleMessengerDisconnect = async (): Promise<void> => {
+    console.log("Messenger Disonnected");
+    // TODO: Reset the state of all lights to the default state and notify subscribers
+  };
 
   public findLightById = (id: string): Promise<Light> => {
     console.log(`Finding Light: ${id}`);
@@ -35,6 +55,9 @@ export class LightService {
 
   public updateLight = async (id: string, lightData: LightInput): Promise<Light> => {
     console.log(`Updating Light: ${id}`);
+
+    // TODO: When publishing to light, make sure to make the PublishPayload an instance of the class so validation works
+
     const lightToUpdate = await this.lightRepo.findOneOrFail(id, { relations: ["state"] });
 
     // Assign the new properties to the light

@@ -106,25 +106,21 @@ export class LightResolver {
   }
 
   @Subscription({ topics: LIGHT_CHANGED })
-  // eslint-disable-next-line class-methods-use-this
   public lightChanged(@Root() updatedLight: Light): Light {
     return updatedLight;
   }
 
   @Subscription({ topics: LIGHT_STATE_CHANGED })
-  // eslint-disable-next-line class-methods-use-this
   public lightStateChanged(@Root() updatedLightState: LightState): LightState {
     return updatedLightState;
   }
 
   @Subscription({ topics: LIGHT_ADDED })
-  // eslint-disable-next-line class-methods-use-this
   public lightAdded(@Root() addedLight: Light): Light {
     return addedLight;
   }
 
   @Subscription({ topics: LIGHT_REMOVED })
-  // eslint-disable-next-line class-methods-use-this
   public lightRemoved(@Root() removedLight: Light): Light {
     return removedLight;
   }

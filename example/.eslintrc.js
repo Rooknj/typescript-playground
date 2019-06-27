@@ -4,26 +4,27 @@ module.exports = {
     commonjs: true,
     es6: true,
     node: true,
-    jest: true
+    jest: true,
   },
   globals: {
     Atomics: "readonly",
-    SharedArrayBuffer: "readonly"
+    SharedArrayBuffer: "readonly",
   },
   parserOptions: {
     ecmaVersion: 2018,
-    sourceType: "module" // Allows for the use of imports
+    sourceType: "module", // Allows for the use of imports
   },
-  settings: { // This section is needed to get imports working with Typescript. Might be unnecessary later
+  settings: {
+    // This section is needed to get imports working with Typescript. Might be unnecessary later
     "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
     "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"]
+      "@typescript-eslint/parser": [".ts", ".tsx"],
     },
     "import/resolver": {
       node: {
-        extensions: [".js", ".jsx", ".ts", ".tsx"]
-      }
-    }
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
+      },
+    },
   },
   extends: [
     // Shared Configs
@@ -35,13 +36,13 @@ module.exports = {
     "airbnb-base",
     // Make sure this is last
     "prettier/@typescript-eslint", // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
   ],
   plugins: [
     // Shared Plugins
     "import",
     "prettier",
-    "jest"
+    "jest",
     // Project Specific Plugins
   ],
   rules: {
@@ -52,7 +53,8 @@ module.exports = {
     radix: "off",
     "no-underscore-dangle": "off",
     "prettier/prettier": "off",
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "class-methods-use-this": "off",
     // Project Specific Rules
-  }
+  },
 };
