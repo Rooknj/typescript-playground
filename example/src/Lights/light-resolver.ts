@@ -13,11 +13,7 @@ import { Service } from "typedi";
 import { Light, LightState } from "./light-type";
 import { LightStateInput, LightInput } from "./light-input";
 import { LightService } from "./light-service";
-
-const LIGHT_CHANGED = "LIGHT_CHANGED";
-const LIGHT_STATE_CHANGED = "LIGHT_STATE_CHANGED";
-const LIGHT_ADDED = "LIGHT_ADDED";
-const LIGHT_REMOVED = "LIGHT_REMOVED";
+import { LIGHT_CHANGED, LIGHT_STATE_CHANGED, LIGHT_ADDED, LIGHT_REMOVED } from "./light-events";
 
 @Service()
 @Resolver((): ClassType<Light> => Light)
@@ -47,33 +43,18 @@ export class LightResolver {
   @Mutation((): ClassType<Light> => Light, {
     description: "Change some of the light's data (use setLightState to change the state)",
   })
-  public async setLight(
-    @Arg("id") id: string,
-    @Arg("lightData") lightData: LightInput,
-    @PubSub(LIGHT_CHANGED) publish: Publisher<Light>
-  ): Promise<Light> {
-    // Set the light
-    const updatedLight = await this.lightService.updateLight(id, lightData);
-
-    // Notify subscriptions
-    publish(updatedLight);
-
-    return updatedLight;
+  public setLight(@Arg("id") id: string, @Arg("lightData") lightData: LightInput): Promise<Light> {
+    // Subscriptions are updated inside of the lightService class because the light can be updated from MQTT messages
+    return this.lightService.updateLight(id, lightData);
   }
 
   @Mutation((): ClassType<LightState> => LightState, { description: "Change the light's state" })
-  public async setLightState(
+  public setLightState(
     @Arg("id") id: string,
-    @Arg("lightStateData") lightStateData: LightStateInput,
-    @PubSub(LIGHT_STATE_CHANGED) publish: Publisher<LightState>
+    @Arg("lightStateData") lightStateData: LightStateInput
   ): Promise<LightState> {
-    // Set the light state
-    const updatedLightState = await this.lightService.updateLightState(id, lightStateData);
-
-    // Notify subscriptions
-    publish(updatedLightState);
-
-    return updatedLightState;
+    // Subscriptions are updated inside of the lightService class because the light state can be updated from MQTT messages
+    return this.lightService.commandLightToChangeState(id, lightStateData);
   }
 
   @Mutation((): ClassType<Light> => Light, { description: "Add a new light" })
@@ -86,6 +67,7 @@ export class LightResolver {
     const addedLight = await this.lightService.addNewLight(id, lightData);
 
     // Notify subscriptions
+    // This is handled here because this is the only possible way to add a light
     publish(addedLight);
 
     return addedLight;
@@ -100,6 +82,7 @@ export class LightResolver {
     const removedLight = await this.lightService.removeLightById(id);
 
     // Notify subscriptions
+    // This is handled here because this is the only possible way to remove a light
     publish(removedLight);
 
     return removedLight;

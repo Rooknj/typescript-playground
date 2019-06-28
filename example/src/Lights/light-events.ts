@@ -1,0 +1,4 @@
+export const LIGHT_CHANGED = "LIGHT_CHANGED";
+export const LIGHT_STATE_CHANGED = "LIGHT_STATE_CHANGED";
+export const LIGHT_ADDED = "LIGHT_ADDED";
+export const LIGHT_REMOVED = "LIGHT_REMOVED";
