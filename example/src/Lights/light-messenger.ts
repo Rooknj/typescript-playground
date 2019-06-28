@@ -262,7 +262,7 @@ export class LightMessenger extends EventEmitter {
     const errors = await validate(payload);
 
     if (errors.length > 0) {
-      console.error("Error validating incoming message", errors);
+      console.error(`Invalid message on ${topic}: Ignoring\n`, errors);
       return;
     }
 
