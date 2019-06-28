@@ -10,7 +10,10 @@ import {
   Min,
   Max,
   IsOptional,
-  ValidationError,
+  IsIn,
+  IsArray,
+  IsIP,
+  Matches,
 } from "class-validator";
 import { plainToClass } from "class-transformer";
 
@@ -76,13 +79,90 @@ export class PublishPayload {
   public speed?: number;
 }
 
-export class ConnectionPayload {}
+export class ConnectionPayload {
+  @IsString()
+  @Length(1, 255)
+  public name!: string;
 
-export class StatePayload {}
+  @IsIn(["0", "2"])
+  public connection!: "0" | "2";
+}
 
-export class EffectListPayload {}
+export class StatePayload {
+  @IsInt()
+  @IsOptional()
+  public mutationId?: number;
 
-export class ConfigPayload {}
+  @IsString()
+  @Length(1, 255)
+  public name!: string;
+
+  @IsEnum(PowerState)
+  @IsOptional()
+  public state!: PowerState;
+
+  @IsOptional()
+  public color!: RGB;
+
+  @IsInt()
+  @Min(0)
+  @Max(100)
+  @IsOptional()
+  public brightness!: number;
+
+  @IsString()
+  @IsOptional()
+  public effect!: string;
+
+  @IsInt()
+  @Min(1)
+  @Max(7)
+  @IsOptional()
+  public speed!: number;
+}
+
+export class EffectListPayload {
+  @IsString()
+  @Length(1, 255)
+  public name!: string;
+
+  @IsArray()
+  public effectList!: string[];
+}
+
+export class ConfigPayload {
+  @IsString()
+  @Length(1, 255)
+  public id!: string;
+
+  @IsString()
+  @Length(1, 255)
+  public name!: string;
+
+  @IsString()
+  public version!: string;
+
+  @IsString()
+  public hardware!: string;
+
+  @IsString()
+  public colorOrder!: string;
+
+  @IsString()
+  public stripType!: string;
+
+  @IsIP("4")
+  public ipAddress!: string;
+
+  @Matches(/^([0-9a-fA-F][0-9a-fA-F]:){5}([0-9a-fA-F][0-9a-fA-F])$/)
+  public macAddress!: string;
+
+  @IsInt()
+  public numLeds!: number;
+
+  @IsInt()
+  public udpPort!: number;
+}
 
 @Service()
 export class LightMessenger extends EventEmitter {
@@ -144,31 +224,45 @@ export class LightMessenger extends EventEmitter {
       return;
     }
 
+    // Each message topic is assigned an event and a function which will convert the data into an instance of the correct Payload class
     const possibleTopicsMap = {
-      [connected]: { event: MessageType.Connected, payload: ConnectionPayload },
-      [state]: { event: MessageType.State, payload: StatePayload },
-      [effectList]: { event: MessageType.EffectList, payload: EffectListPayload },
-      [config]: { event: MessageType.Config, payload: ConfigPayload },
-      [discoveryResponse]: { event: MessageType.DiscoveryResponse, payload: ConfigPayload },
+      [connected]: {
+        event: MessageType.Connected,
+        toClass: (obj: object): ConnectionPayload => {
+          return plainToClass(ConnectionPayload, obj);
+        },
+      },
+      [state]: {
+        event: MessageType.State,
+        toClass: (obj: object): StatePayload => plainToClass(StatePayload, obj),
+      },
+      [effectList]: {
+        event: MessageType.EffectList,
+        toClass: (obj: object): EffectListPayload => plainToClass(EffectListPayload, obj),
+      },
+      [config]: {
+        event: MessageType.Config,
+        toClass: (obj: object): ConfigPayload => plainToClass(ConfigPayload, obj),
+      },
+      [discoveryResponse]: {
+        event: MessageType.DiscoveryResponse,
+        toClass: (obj: object): ConfigPayload => plainToClass(ConfigPayload, obj),
+      },
     };
 
-    let payload;
-    let errors: ValidationError[] = [];
-    let event = "";
-    Object.keys(possibleTopicsMap).forEach(
-      async (possibleTopic: string): Promise<void> => {
-        if (possibleTopic !== topicTokens[2]) {
-          return;
-        }
+    const messageTopic = topicTokens[2];
 
-        event = possibleTopic;
-        payload = plainToClass(possibleTopicsMap[possibleTopic].payload, data);
-        errors = await validate(payload);
-      }
-    );
+    // Get the message event to emit from the map
+    const { event, toClass } = possibleTopicsMap[messageTopic];
+
+    // Convert the incoming data into an instance of a Payload class
+    const payload = toClass(data);
+
+    // Validate the incoming message
+    const errors = await validate(payload);
 
     if (errors.length > 0) {
-      console.error(errors);
+      console.error("Error validating incoming message", errors);
       return;
     }
 
