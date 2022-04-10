@@ -41,7 +41,7 @@
     "husky": "^2.4.1",
     "jest": "^24.8.0",
     "lint-staged": "^8.2.1",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.6",
     "nodemon": "^1.19.1",
     "pkg": "^4.4.0",
     "prettier": "^1.18.2",
