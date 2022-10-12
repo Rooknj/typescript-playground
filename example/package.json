@@ -50,7 +50,7 @@
     "typescript": "^3.5.2"
   },
   "dependencies": {
-    "apollo-server": "^2.6.4",
+    "apollo-server": "^2.25.4",
     "async-mqtt": "^2.3.0",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.9.1",
